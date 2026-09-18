@@ -61,8 +61,12 @@ The public address from a free deploy (`https://rochda-portfolio.rochda-portfoli
 _Avoid_: SITE_URL (that is the canonical `https://rochda.studio`, not where the free deploy lives yet)
 
 **Manual deploy**:
-A one-shot publish from this laptop (`npm run build && wrangler deploy`). No GitHub auto-deploy.
-_Avoid_: auto-deploy, Pages-connected repo
+A one-shot publish from this laptop (`npm run build && wrangler deploy`). Still works as a fallback.
+_Avoid_: auto-deploy (that is the GitHub Actions path below)
+
+**Auto-deploy**:
+Every push to `main` on GitHub goes live by itself via `.github/workflows/deploy.yml` (build + `wrangler deploy`). No laptop needed.
+_Avoid_: manual deploy (the laptop fallback above)
 
 ## Decisions
 

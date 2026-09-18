@@ -57,7 +57,7 @@ The `.MOV` file in the zip. Excluded from v2.
 _Avoid_: hero video, gallery video
 
 **Live URL**:
-The public address from a free deploy (`https://rochda-portfolio.rochda-portfolio.workers.dev`). Temporary home until the custom domain lands.
+The public address from a free deploy (`https://portfolio.rochda-portfolio.workers.dev`). Temporary home until the custom domain lands.
 _Avoid_: SITE_URL (that is the canonical `https://rochda.studio`, not where the free deploy lives yet)
 
 **Manual deploy**:

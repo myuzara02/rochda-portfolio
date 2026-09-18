@@ -1,0 +1,27 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component. */
+  render?: boolean;
+  /** Full `scene.splinecode` URL from Spline Viewer export. */
+  url: string;
+  /** `true` for above-the-fold hero; lazy-loads elsewhere. */
+  eager?: boolean;
+  /** `true` pins the canvas `fixed` behind the layout instead of absolute in-section. */
+  fixed?: boolean;
+}
+
+const { render = true, url, eager = false, fixed = false } = Astro.props;
+---
+
+{
+  render && (
+    <div class:list={["spline-bg", fixed && "fixed"]} aria-hidden="true">
+      <spline-viewer
+        url={url}
+        loading={eager ? "eager" : "lazy"}
+        events-target="global"
+        background="transparent"
+      />
+    </div>
+  )
+}

@@ -1,0 +1,84 @@
+---
+import BaseHead from "@/components/Utility/BaseHead.astro";
+import "@/styles/rochda.css";
+import type { SeoProps } from "@/types.ts";
+
+type Props = SeoProps;
+
+const { ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead {...seo} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rochda">
+    <slot />
+    <script>
+      import Lenis from "lenis";
+      import "lenis/dist/lenis.css";
+      import "@splinetool/viewer";
+
+      (() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          return;
+        const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        document.addEventListener("click", (e) => {
+          const a = (e.target as HTMLElement).closest?.(
+            'a[href^="#"], a[href^="/#"]',
+          ) as HTMLAnchorElement | null;
+          if (!a) return;
+          const hash = a.hash;
+          if (!hash || hash.length < 2) return;
+          // Only same-page targets; let cross-page "/#x" navigate normally.
+          if (a.pathname !== window.location.pathname && a.pathname !== "/")
+            return;
+          const el = document.querySelector(hash);
+          if (!el) return;
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: 0 });
+          history.replaceState(null, "", hash);
+        });
+      })();
+    </script>
+    <script>
+      (() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          return;
+        const els = Array.from(
+          document.querySelectorAll(
+            ".sec-head, .work-item, .svc-row, .faq-item, .about-lead > *:not(.mask-reveal), .about-side > *, .mcell, .case-desc .prose > *, .gal-masonry > div, .closing-mid > *:not(.mask-reveal)",
+          ),
+        );
+        const masks = Array.from(document.querySelectorAll(".mask-reveal"));
+        if ((!els.length && !masks.length) || !("IntersectionObserver" in window)) return;
+        els.forEach((el) => el.classList.add("rv-scroll"));
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+        );
+        els.forEach((el) => io.observe(el));
+        masks.forEach((el) => io.observe(el));
+      })();
+    </script>
+  </body>
+</html>

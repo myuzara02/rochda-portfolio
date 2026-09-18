@@ -1,0 +1,22 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Full mesh renders all four blobs; closing/case mesh renders three. */
+  full?: boolean;
+}
+
+const { render = true, full = true } = Astro.props;
+---
+
+{
+  render && (
+    <div class="mesh" aria-hidden="true">
+      <span class="blob b1" />
+      <span class="blob b2" />
+      <span class="blob b3" />
+      {full && <span class="blob b4" />}
+      <span class="fade" />
+    </div>
+  )
+}

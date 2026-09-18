@@ -1,0 +1,35 @@
+---
+import RochdaLayout from "@/layouts/RochdaLayout.astro";
+import Header from "@/components/rochda/Header.astro";
+import Mesh from "@/components/rochda/Mesh.astro";
+import Grain from "@/components/rochda/Grain.astro";
+import Closing from "@/components/rochda/Closing.astro";
+---
+
+<RochdaLayout
+  title="Page not found"
+  description="The page you're looking for doesn't exist."
+>
+  <Header root="/" />
+
+  <main id="main">
+    <section class="case-top">
+      <Mesh full={false} />
+      <Grain />
+      <div class="wrap">
+        <a class="back" href="/">
+          <span class="arw" aria-hidden="true">←</span> Back to home
+        </a>
+        <div class="case-hero">
+          <h1 class="h-xl mask-reveal"><span>This page doesn't exist</span></h1>
+          <p class="body-lg case-sub">
+            The page you're looking for may have moved, or the link that
+            brought you here might be out of date.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <Closing variant="slim" root="/" />
+  </main>
+</RochdaLayout>

@@ -1,0 +1,103 @@
+---
+import RochdaLayout from "@/layouts/RochdaLayout.astro";
+import Header from "@/components/rochda/Header.astro";
+import Mesh from "@/components/rochda/Mesh.astro";
+import Grain from "@/components/rochda/Grain.astro";
+import Thumb from "@/components/rochda/Thumb.astro";
+import Closing from "@/components/rochda/Closing.astro";
+import { projects, projectBySlug } from "@/data/projects.ts";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const project = projectBySlug(slug ?? "");
+if (!project) return Astro.redirect("/#work");
+const next = projectBySlug(project.next);
+---
+
+<RochdaLayout title={project.name} description={project.sub}>
+  <Header root="/" />
+
+  <main id="main">
+    <section class="case-top">
+      <Mesh full={false} />
+      <Grain />
+      <div class="wrap">
+        <a class="back" href="/#work">
+          <span class="arw" aria-hidden="true">←</span> Back to overview
+        </a>
+        <div class="case-hero">
+          <h1 class="h-xl mask-reveal"><span>{project.name}</span></h1>
+          <p class="body-lg case-sub">{project.sub}</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <Thumb
+        slug={project.slug}
+        seed={0}
+        caption={`${project.name} — cover image`}
+        src={project.cover}
+        logo={project.logo}
+        eager
+        cover
+      />
+    </div>
+
+    <section class="case-meta">
+      <div class="wrap">
+        <dl class="grid" style="margin:0">
+          <div class="mcell">
+            <dt class="label dim">Role</dt><dd>{project.role}</dd>
+          </div>
+          <div class="mcell">
+            <dt class="label dim">Period</dt><dd>{project.period}</dd>
+          </div>
+          <div class="mcell">
+            <dt class="label dim">Scope</dt><dd>{project.scope}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="case-desc">
+      <div class="wrap">
+        <div class="grid">
+          <p class="label lbl">Description</p>
+          <div class="prose">
+            {project.prose.map((t) => <p class="body">{t}</p>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="gal-masonry">
+          {
+            project.gallery.map((g, i) => (
+              <div>
+                <Thumb slug={project.slug} seed={i + 1} caption={g.cap} src={g.src} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <a class="next-link" href={`/work/${project.next}`}>
+        <span class="label dim">Next project</span>
+        <span class="n">
+          <h2 class="h-lg">{next?.name ?? ""}</h2>
+          <span class="arw" aria-hidden="true">→</span>
+        </span>
+      </a>
+    </div>
+
+    <Closing variant="slim" root="/" />
+  </main>
+</RochdaLayout>

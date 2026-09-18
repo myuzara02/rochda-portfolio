@@ -1,0 +1,65 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Project slug for the generative gradient palette. */
+  slug: string;
+  /** Deterministic seed so each slot renders a distinct composition. */
+  seed?: number;
+  /** Caption overlay, e.g. `Artivive — cover image`. */
+  caption: string;
+  /**
+   * Photo path under `/work/…` (pre-optimized webp). When set, the real
+   * photo renders instead of the generative gradient (Brief §5.6).
+   */
+  src?: string;
+  /**
+   * Brand mark path (e.g. `/logo/artivive.svg`). When set, the logo is
+   * centered over a dark veil so it stays contrasted. Covers only.
+   */
+  logo?: string;
+  /** Extra class for cover mode (`cover`). */
+  cover?: boolean;
+  /** Load eagerly for above-the-fold covers; galleries stay lazy. */
+  eager?: boolean;
+}
+
+const {
+  render = true,
+  slug,
+  seed = 0,
+  caption,
+  src,
+  logo,
+  cover = false,
+  eager = false,
+} = Astro.props;
+
+import { art } from "@/utils/art.ts";
+const blobs = src ? "" : art(slug, seed);
+const alt = caption;
+---
+
+{
+  render && (
+    <div class:list={["thumb", cover && "cover"]}>
+      {src ? (
+        <img
+          class="photo"
+          src={src}
+          alt={alt}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+        />
+      ) : (
+        <span class="art" set:html={blobs} />
+      )}
+      {logo && (
+        <span class="veil" aria-hidden="true">
+          <img src={logo} alt="" loading={eager ? "eager" : "lazy"} decoding="async" />
+        </span>
+      )}
+      <span class="cap">{caption}</span>
+    </div>
+  )
+}

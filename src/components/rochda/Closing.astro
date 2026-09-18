@@ -1,0 +1,164 @@
+---
+import Mesh from "@/components/rochda/Mesh.astro";
+import SplineBg from "@/components/rochda/SplineBg.astro";
+import Grain from "@/components/rochda/Grain.astro";
+import { site } from "@/data/projects.ts";
+
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** `full` for the homepage closing; `slim` for case pages. */
+  variant?: "full" | "slim";
+  /** Anchor prefix: `""` on the homepage, `"/"` on case pages. */
+  root?: string;
+}
+
+const { render = true, variant = "full", root = "" } = Astro.props;
+const mailto = `mailto:${site.email}`;
+---
+{
+  render && variant === "full" && (
+    <footer class="closing" id="contact">
+      <Mesh full={false} render={false} />
+      <SplineBg url="https://prod.spline.design/6fOfs4xVNbrf9zFA/scene.splinecode" />
+      <Grain />
+      <div class="wrap">
+        <div class="closing-top">
+          <span class="stat">
+            <span class="label">{site.location}</span>
+            <span class="tag">
+              <span>{site.coords}</span>
+            </span>
+          </span>
+          <span class="stat">
+            <span class="dot-ok" aria-hidden="true" />
+            <span class="label" id="clock">—</span>
+            <span class="tag">
+              <span>{site.tzLabel}</span>
+            </span>
+          </span>
+        </div>
+
+        <div class="closing-mid">
+          <h2 class="h-xl mask-reveal">
+            <span>Let’s work <em class="it">together</em></span>
+          </h2>
+          <a class="round accent" href={mailto} aria-label="Send an email">
+            +
+          </a>
+        </div>
+
+        <div class="contact-links">
+          <a class="clink" href={mailto}>
+            <span class="label dim">Email</span>
+            <span class="v">{site.email}</span>
+            <span class="arw" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+          <a class="clink" href={site.linkedin} target="_blank" rel="noopener">
+            <span class="label dim">Direct message</span>
+            <span class="v">LinkedIn</span>
+            <span class="arw" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </div>
+
+        <div class="foot-row">
+          <nav class="foot-nav" aria-label="Footer">
+            <a class="label" href={`${root}#about`}>
+              About
+            </a>
+            <a class="label" href={`${root}#work`}>
+              Work
+            </a>
+            <a class="label" href={`${root}#faq`}>
+              FAQ
+            </a>
+          </nav>
+          <p class="body" style="font-size:.875rem;margin:0">
+            Copyright © {site.year} {site.name}. All rights reserved.
+          </p>
+          <a class="label" href={site.linkedin} target="_blank" rel="noopener">
+            LinkedIn ↗
+          </a>
+        </div>
+      </div>
+    </footer>
+  )
+}
+{
+  render && variant === "slim" && (
+    <footer class="closing" style="padding-block:clamp(48px,8vh,88px) 40px">
+      <Mesh full={false} />
+      <div class="wrap">
+        <div class="foot-row" style="margin-top:0;border-top:0;padding-top:0">
+          <nav class="foot-nav" aria-label="Footer">
+            <a class="label" href={`${root}#about`}>
+              About
+            </a>
+            <a class="label" href={`${root}#work`}>
+              Work
+            </a>
+            <a class="label" href={`${root}#faq`}>
+              FAQ
+            </a>
+          </nav>
+          <p class="body" style="font-size:.875rem;margin:0">
+            Copyright © {site.year} {site.name}.
+          </p>
+          <a class="label" href={site.linkedin} target="_blank" rel="noopener">
+            LinkedIn ↗
+          </a>
+        </div>
+      </div>
+    </footer>
+  )
+}
+{
+  render && variant === "full" && (
+    <script>
+    const clock = document.getElementById("clock");
+    function tick() {
+      try {
+        if (clock) {
+          clock.textContent = new Intl.DateTimeFormat("en-GB", {
+            timeZone: "Asia/Jakarta",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          }).format(new Date());
+        }
+      } catch {
+        if (clock) clock.textContent = "";
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+    const btn = document.querySelector<HTMLElement>(".closing-mid .round");
+    if (
+      btn &&
+      window.matchMedia("(pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      btn.classList.add("magnetic");
+      const zone: HTMLElement = btn.closest(".closing-mid") ?? btn;
+      zone.addEventListener("pointermove", (e: PointerEvent) => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        if (Math.hypot(dx, dy) < 120) {
+          btn.style.transform = `translate(${(dx * 0.35).toFixed(1)}px, ${(dy * 0.35).toFixed(1)}px)`;
+        } else {
+          btn.style.transform = "";
+        }
+      });
+      zone.addEventListener("pointerleave", () => {
+        btn.style.transform = "";
+      });
+    }
+    </script>
+  )
+}

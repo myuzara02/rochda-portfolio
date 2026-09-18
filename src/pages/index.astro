@@ -1,0 +1,246 @@
+---
+import RochdaLayout from "@/layouts/RochdaLayout.astro";
+import Header from "@/components/rochda/Header.astro";
+import Mesh from "@/components/rochda/Mesh.astro";
+import SplineBg from "@/components/rochda/SplineBg.astro";
+import Grain from "@/components/rochda/Grain.astro";
+import Tag from "@/components/rochda/Tag.astro";
+import SectionHead from "@/components/rochda/SectionHead.astro";
+import Thumb from "@/components/rochda/Thumb.astro";
+import FaqItem from "@/components/rochda/FaqItem.astro";
+import Closing from "@/components/rochda/Closing.astro";
+import { site, projects } from "@/data/projects.ts";
+
+const faqs = [
+  {
+    id: "a1",
+    q: "What services do you offer?",
+    a: "Graphic design, photography and social media management. Each one is available on its own, or combined into a single package when a brand needs the identity, the imagery and the publishing to move together.",
+  },
+  {
+    id: "a2",
+    q: "How does the process work?",
+    a: "Briefing, then proposal and scope, then execution, then review, then final delivery. The scope is agreed in writing before any work starts, and the review round happens before files are handed over, so nothing arrives as a surprise.",
+  },
+  {
+    id: "a3",
+    q: "How do I start a project?",
+    a: "Send a message by email or on LinkedIn with a short outline of what you need and your timeline. I will come back with current availability and the next step.",
+  },
+];
+---
+
+<RochdaLayout title={site.name} description={site.description}>
+  <Header />
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <Mesh render={false} />
+      <SplineBg url="https://prod.spline.design/XeV6jwtdiFThCAzp/scene.splinecode" eager fixed />
+      <Grain />
+
+      <div class="wrap">
+        <h1 class="h-xl hero-type">
+          <span class="ln rv"><span>Graphic design,</span></span>
+          <span class="ln rv"
+            ><span><em class="it">photography</em> &amp;</span></span
+          >
+          <span class="ln rv"><span>social media</span></span>
+        </h1>
+
+        <div class="grid hero-mid fade-in">
+          <p class="body-lg intro">
+            Focused on visual clarity and strategic content execution —
+            identity, imagery and publishing built as one system.
+          </p>
+        </div>
+
+        <div class="hero-bar fade-in">
+          <div class="stats">
+            <span class="stat">
+              <span class="label">3</span>
+              <Tag label="Disciplines" />
+            </span>
+            <span class="stat">
+              <span class="label">2</span>
+              <Tag label="Brands" />
+            </span>
+            <span class="stat">
+              <span class="dot-ok" aria-hidden="true"></span>
+              <span class="label">Open</span>
+              <Tag label="2026" />
+            </span>
+          </div>
+          <a class="golink" href="#work">
+            <span class="ico" aria-hidden="true"></span><span>See work</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <SectionHead tag="About" />
+
+        <div class="grid about-grid">
+          <div class="about-lead">
+            <h2 class="about-statement mask-reveal">
+              <span>Identity that holds up on a shelf, on a screen, and in a
+              <em class="it">feed</em></span>
+            </h2>
+            <p class="body">
+              My work sits across three disciplines that rarely stay separate
+              for long. Identity and layout give a brand its structure;
+              commercial photography gives it evidence; social media management
+              keeps it in front of the people it was built for. Treating those
+              as one system is what keeps a brand consistent from a logo lockup
+              to a Tuesday afternoon post.
+            </p>
+          </div>
+          <div class="about-side">
+            <p class="body">
+              In practice that means art direction and design systems, product
+              and lifestyle photography shot for real placements rather than for
+              a portfolio, and content calendars planned around what a brand
+              actually needs to say.
+            </p>
+            <a class="golink" style="margin-top:28px" href="#contact">
+              <span>Start a project</span><span class="ico" aria-hidden="true"
+              ></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="expertise">
+          <div class="sec-head" style="margin-bottom:20px;">
+            <p class="label">Expertise</p>
+            <span class="rule" aria-hidden="true"
+            ></span>
+          </div>
+          <div class="exp-row">
+            <div class="left">
+              <span class="label">Visual identity &amp; layout</span>
+              <Tag label="Core" />
+            </div>
+            <Tag label="1" />
+          </div>
+          <div class="exp-row">
+            <div class="left">
+              <span class="label">Commercial photography</span>
+              <Tag label="Product & lifestyle" />
+            </div>
+            <Tag label="2" />
+          </div>
+          <div class="exp-row">
+            <div class="left">
+              <span class="label">Social media management</span>
+              <Tag label="Strategy to publishing" />
+            </div>
+            <Tag label="3" />
+          </div>
+          <div class="exp-row">
+            <div class="left">
+              <span class="label">Campaign &amp; content direction</span>
+            </div>
+            <Tag label="4" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ============ WORK ============ -->
+    <section class="section" id="work">
+      <div class="wrap">
+        <SectionHead tag="Experience" />
+        <div class="grid" style="row-gap:0">
+          {
+            projects.map((p, i) => (
+              <a
+                class:list={["work-item", i % 2 === 0 ? "w-left" : "w-right"]}
+                href={`/work/${p.slug}`}
+              >
+                <Thumb
+                  slug={p.slug}
+                  seed={i}
+                  caption={`${p.name} — cover image`}
+                  src={p.cover}
+                  logo={p.logo}
+                  eager
+                />
+                <div class="work-cap">
+                  <span class="name">{p.name}</span>
+                  {p.tags.map((t) => (
+                    <Tag label={t} />
+                  ))}
+                  <span class="go">
+                    View detail{" "}
+                    <span class="arw" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <!-- ============ SERVICES ============ -->
+    <section class="section">
+      <div class="wrap">
+        <SectionHead tag="Services" />
+
+        <div class="svc-row">
+          <h3>Brand identity sprint</h3>
+          <Tag label="Fixed scope" />
+        </div>
+        <div class="svc-row">
+          <h3>Photography production</h3>
+          <Tag label="Per shoot day" />
+        </div>
+        <div class="svc-row">
+          <h3>Social media retainer</h3>
+          <Tag label="Monthly" />
+        </div>
+        <div class="svc-row">
+          <h3>Full package</h3>
+          <Tag label="All three" />
+        </div>
+      </div>
+    </section>
+    <!-- ============ FAQ ============ -->
+    <section class="section" id="faq" style="padding-top:0">
+      <div class="wrap">
+        <SectionHead tag="FAQ" />
+
+        <h2
+          class="h-lg mask-reveal"
+          style="margin-bottom:clamp(36px,6vh,72px);max-width:20ch"
+        >
+          <span>Questions? <em class="it">answers</em></span>
+        </h2>
+        {faqs.map((f) => <FaqItem q={f.q} a={f.a} id={f.id} />)}
+
+        <p class="faq-foot">
+          Still got questions? <a href="#contact">Contact</a> me.
+        </p>
+      </div>
+    </section>
+    <!-- ============ CONTACT / FOOTER ============ -->
+    <Closing variant="full" />
+  </main>
+
+  <script>
+    Array.prototype.forEach.call(document.querySelectorAll(".faq-q"), (btn) => {
+      btn.addEventListener("click", () => {
+        const item = btn.closest(".faq-item");
+        if (!item) return;
+        const open = item.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+    requestAnimationFrame(() => {
+      document.body.classList.add("ready");
+    });
+  </script>
+</RochdaLayout>

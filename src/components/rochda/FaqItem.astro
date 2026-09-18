@@ -1,0 +1,37 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Question text. */
+  q: string;
+  /** Answer text. */
+  a: string;
+  /** Unique id prefix, e.g. `a1`. */
+  id: string;
+}
+
+const { render = true, q, a, id } = Astro.props;
+---
+
+{
+  render && (
+    <div class="faq-item">
+      <h3 style="margin:0">
+        <button
+          class="faq-q"
+          aria-expanded="false"
+          aria-controls={id}
+          id={`q-${id}`}
+        >
+          <span>{q}</span>
+          <span class="plus" aria-hidden="true" />
+        </button>
+      </h3>
+      <div class="faq-a" id={id} role="region" aria-labelledby={`q-${id}`}>
+        <div>
+          <p>{a}</p>
+        </div>
+      </div>
+    </div>
+  )
+}

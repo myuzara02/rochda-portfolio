@@ -1,0 +1,22 @@
+---
+import Tag from "@/components/rochda/Tag.astro";
+
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Right-hand bracket label, e.g. `About`, `Experience`, `Services`, `FAQ`. */
+  tag: string;
+}
+
+const { render = true, tag } = Astro.props;
+---
+
+{
+  render && (
+    <div class="sec-head">
+      <p class="label">Description</p>
+      <Tag label={tag} />
+      <span class="rule" aria-hidden="true" />
+    </div>
+  )
+}

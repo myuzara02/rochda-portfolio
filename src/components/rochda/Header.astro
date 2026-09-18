@@ -1,0 +1,38 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Anchor prefix: `""` on the homepage, `"/"` on case pages. */
+  root?: string;
+}
+
+const { render = true, root = "" } = Astro.props;
+---
+{
+  render && (
+    <header class="site-header" id="header">
+      <div class="wrap">
+        <a class="mark" href={`${root}#top`}>
+          <span class="glyph" aria-hidden="true" />
+          <span class="txt">Rochda Riswat Muliampati</span>
+        </a>
+        <nav class="nav" aria-label="Primary"><a href={`${root}#about`}>About</a> <a href={`${root}#work`}>Work</a> <a href={`${root}#faq`}>FAQ</a> <a class="strong" href={`${root}#contact`}> Contact </a></nav>
+      </div>
+    </header>
+  )
+}
+
+<script>
+  const header = document.getElementById("header");
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      header?.classList.toggle("is-stuck", window.pageYOffset > 24);
+      ticking = false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+</script>

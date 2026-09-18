@@ -1,0 +1,10 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+---
+
+{render && <div class="grain" aria-hidden="true" />}

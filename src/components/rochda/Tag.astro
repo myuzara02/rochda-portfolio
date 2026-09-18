@@ -1,0 +1,20 @@
+---
+interface Props {
+  /** Set to `false` to skip rendering this component and its children. */
+  render?: boolean;
+  /** Bracket label, e.g. `Photography`. */
+  label: string;
+  /** Solid variant renders the label in full `--fg` instead of `--fg-60`. */
+  solid?: boolean;
+}
+
+const { render = true, label, solid = false } = Astro.props;
+---
+
+{
+  render && (
+    <span class:list={["tag", solid && "solid"]}>
+      <span>{label}</span>
+    </span>
+  )
+}

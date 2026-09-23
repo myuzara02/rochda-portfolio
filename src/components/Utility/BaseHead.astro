@@ -1,6 +1,6 @@
 ---
 import { Font } from "astro:assets";
-import { SITE_NAME, SITE_DESCRIPTION } from "@/consts.ts";
+import { SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_BASE } from "@/consts.ts";
 import { isNoindexRoute } from "@/utils/seo.ts";
 import type { SeoProps } from "@/types.ts";
 
@@ -18,7 +18,9 @@ const isNoindex = noindex ?? isNoindexRoute(Astro.url.pathname);
 
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const socialImage = new URL(image, Astro.site);
+// TEMPORARY: resolve social images against the live workers.dev origin
+// (see OG_IMAGE_BASE) until rochda.studio lands.
+const socialImage = new URL(image, OG_IMAGE_BASE);
 ---
 
 <meta charset="utf-8" />

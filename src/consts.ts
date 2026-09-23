@@ -5,6 +5,13 @@ export const SITE_DESCRIPTION =
   "Portfolio of Rochda Riswat Muliampati. Visual identity, commercial photography and social media management.";
 /** Canonical origin. Resolves canonical URLs, social images, and the sitemap. */
 export const SITE_URL = "https://rochda.studio";
+/**
+ * TEMPORARY: base origin for `og:image` / `twitter:image` only. The free
+ * deploy lives here until the custom domain lands; scrapers can't fetch
+ * images from `SITE_URL` yet. Revert to `SITE_URL` once `rochda.studio`
+ * is live. Canonical URLs and the sitemap intentionally keep `SITE_URL`.
+ */
+export const OG_IMAGE_BASE = "https://portfolio.rochda-portfolio.workers.dev";
 /** BCP 47 locale tag used to format dates and numbers. */
 export const SITE_LOCALE = "en-US";
 /**

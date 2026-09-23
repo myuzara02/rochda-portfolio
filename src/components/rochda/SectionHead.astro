@@ -1,5 +1,4 @@
 ---
-import Tag from "@/components/rochda/Tag.astro";
 
 interface Props {
   /** Set to `false` to skip rendering this component and its children. */
@@ -10,12 +9,10 @@ interface Props {
 
 const { render = true, tag } = Astro.props;
 ---
-
 {
   render && (
     <div class="sec-head">
-      <p class="label">Description</p>
-      <Tag label={tag} />
+      <p class="label">{tag}</p>
       <span class="rule" aria-hidden="true" />
     </div>
   )

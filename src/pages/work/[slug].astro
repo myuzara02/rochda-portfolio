@@ -51,13 +51,16 @@ const next = projectBySlug(project.next);
       <div class="wrap">
         <dl class="grid" style="margin:0">
           <div class="mcell">
-            <dt class="label dim">Role</dt><dd>{project.role}</dd>
+            <dt class="label dim">Role</dt>
+            <dd>{project.role}</dd>
           </div>
           <div class="mcell">
-            <dt class="label dim">Period</dt><dd>{project.period}</dd>
+            <dt class="label dim">Period</dt>
+            <dd>{project.period}</dd>
           </div>
           <div class="mcell">
-            <dt class="label dim">Scope</dt><dd>{project.scope}</dd>
+            <dt class="label dim">Scope</dt>
+            <dd>{project.scope}</dd>
           </div>
         </dl>
       </div>
@@ -73,6 +76,22 @@ const next = projectBySlug(project.next);
         </div>
       </div>
     </section>
+    {
+      (project.sections ?? []).filter((s) => s.render !== false).map((s) => (
+        <section class="case-desc">
+          <div class="wrap">
+            <div class="grid">
+              <p class="label lbl">{s.label}</p>
+              <div class="prose">
+                {s.body.map((t) => (
+                  <p class="body">{t}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      ))
+    }
 
     <section>
       <div class="wrap">
